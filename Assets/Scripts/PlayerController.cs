@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject VictoryScreen;
     [SerializeField] private GameObject GameOverScreen;
 
-    private bool victory;
+    public bool victory;
 
     private void Awake()
     {
