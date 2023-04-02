@@ -23,17 +23,17 @@ public class Timer : MonoBehaviour
 
     private void Update()
     {
-        if (timeToComplete > 0 && !paused)
+        switch (timeToComplete)
         {
-            timeToComplete -= Time.deltaTime;
-            UpdateTimerDisplay();
-        } else if (timeToComplete <= 0f)
-        {
-            timeDisplay.text = "00:00";
-            StartCoroutine(playerController.Respawn());
+            case > 0 when !paused:
+                timeToComplete -= Time.deltaTime;
+                UpdateTimerDisplay();
+                break;
+            case <= 0f:
+                timeDisplay.text = "00:00";
+                StartCoroutine(playerController.Respawn());
+                break;
         }
-
-        
     }
 
     private void UpdateTimerDisplay()
