@@ -14,9 +14,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool IsMoving;
     private bool canMove;
     private Vector2 pInput;
-    [Header("Health")] 
-    [SerializeField] private float currentHealth;
-    private const float MaxHealth = 100f;
     [Header("UI")]
     [SerializeField] private GameObject VictoryScreen;
     [SerializeField] private GameObject GameOverScreen;
@@ -29,7 +26,6 @@ public class PlayerController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         timer = FindObjectOfType<Timer>();
-        currentHealth = MaxHealth;
         canMove = true;
     }
 
@@ -47,12 +43,6 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("Y", 0f);
                 break;
         }
-        if (currentHealth == 0)
-        {
-            pInput = Vector2.zero;
-            StartCoroutine(Respawn());
-        }
-
         if (victory)
         {
             pInput = Vector2.zero;
@@ -69,7 +59,6 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Obstacle")) currentHealth = 0;
         if (col.gameObject.CompareTag("Victory")) victory = true;
     }
     public IEnumerator Respawn()
@@ -90,6 +79,16 @@ public class PlayerController : MonoBehaviour
         VictoryScreen.SetActive(true);
     }
 
+    public void UpdateMovementSpeed(float value)
+    {
+        movementSpeed += value;
+    }
+
+    public float GetMovementSpeed()
+    {
+        return movementSpeed;
+    }
+    
     private void StopPlayerInput()
     {
         pInput = Vector2.zero;
