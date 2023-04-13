@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // manages players input setting the correct values on the blendtree so the animations will play correctly
         rb.velocity = pInput * movementSpeed;
         switch (IsMoving)
         {
@@ -43,12 +44,14 @@ public class PlayerController : MonoBehaviour
                 animator.SetFloat("Y", 0f);
                 break;
         }
-        if (victory)
+        if (victory) // if the player has won show victory screen and stops any possible input
         {
             pInput = Vector2.zero;
             StartCoroutine(Win());
         }
     }
+    
+    // player input
     public void OnMove(InputAction.CallbackContext context)
     {
         if (canMove)
@@ -57,10 +60,12 @@ public class PlayerController : MonoBehaviour
             IsMoving = pInput != Vector2.zero;
         }
     }
+    // checks for collision on the shrine
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Victory")) victory = true;
     }
+    // respawns player if no time left
     public IEnumerator Respawn()
     {
         animator.SetTrigger("Death");
@@ -70,6 +75,7 @@ public class PlayerController : MonoBehaviour
         GameOverScreen.SetActive(true);
         
     }
+    // plays wining dance and shows victory screen
     private IEnumerator Win()
     {
         animator.SetTrigger("Victory");
@@ -78,17 +84,17 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(2f);
         VictoryScreen.SetActive(true);
     }
-
+    // used in the traps script so I could update the players speed
     public void UpdateMovementSpeed(float value)
     {
         movementSpeed += value;
     }
-
+    // used in the traps script so I could save the current players speed
     public float GetMovementSpeed()
     {
         return movementSpeed;
     }
-    
+    // disables all players input
     private void StopPlayerInput()
     {
         pInput = Vector2.zero;

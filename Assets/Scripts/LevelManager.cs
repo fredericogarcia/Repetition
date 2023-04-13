@@ -1,6 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/*
+ * This script manages all level transitions
+*/
+ 
+
 public class LevelManager : MonoBehaviour
 {
     public void PlayGame()

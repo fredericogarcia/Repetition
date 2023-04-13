@@ -1,7 +1,6 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 public class HighScore : MonoBehaviour
 {
@@ -23,13 +22,17 @@ public class HighScore : MonoBehaviour
 
     private void Update()
     {
-        if (!timer.paused && !player.victory) elapsedTime += Time.deltaTime;
+        // checks if game is not paused and that the player is not in a victory screen
+        if (!timer.paused && !player.victory) elapsedTime += Time.deltaTime; // starts timer
         else
-        {
-            if (elapsedTime < highScore || highScore == 0) PlayerPrefs.SetFloat("highscore" + levelIndex, elapsedTime);
+        {   // if the timer is paused and the player is in a victory screen
+            // we then check if there is a highscore or none, if so, we set the new highscore time, we also use the levelIndex so we can track highscores for
+            // multiple levels
+            if (elapsedTime < highScore || highScore == 0) PlayerPrefs.SetFloat("highscore" + levelIndex, elapsedTime); 
         }
     }
 
+    // this function converts the highscore into a string, so we can have a pretty string to display to the player
     private string ConvertHighScoreIntoString()
     {
         var minutes = Mathf.FloorToInt(highScore / 60);
@@ -38,6 +41,7 @@ public class HighScore : MonoBehaviour
         return currentTime;
     }
 
+    // display highscore
     private void SetHighScoreText()
     {
         if (highScore != 0)

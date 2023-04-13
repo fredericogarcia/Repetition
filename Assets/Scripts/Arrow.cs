@@ -31,6 +31,8 @@ public class Arrow : MonoBehaviour
     {
         timer = FindObjectOfType<Timer>();
         arrowArray = new[] { arrowDown, arrowUp, arrowLeft, arrowRight };
+        // this is not needed, but when I was tweaking the values and checking things up I kept forgetting to set it to 0
+        // so I just coded it so I wouldn't have to worry about it and everytime I pressed play no matter what I could test properly
         ChangeImageAlpha(arrowDown, 0f);
         ChangeImageAlpha(arrowUp, 0f);
         ChangeImageAlpha(arrowLeft, 0f);
@@ -46,6 +48,7 @@ public class Arrow : MonoBehaviour
         if (!timer.paused) StartCoroutine(ShowArrowOnHUD());
     }
     
+    // randomizes an arrow to be chosen for the player to press
     private Image PickRandomArrow()
     {
         var randomImage = Random.Range(0, arrowArray.Length);
@@ -59,6 +62,7 @@ public class Arrow : MonoBehaviour
         };
     }
     
+    // shows the arrow to the player
     private IEnumerator ShowArrowOnHUD()
     {
         elapsedTime += Time.deltaTime;
@@ -80,7 +84,8 @@ public class Arrow : MonoBehaviour
             StartCoroutine(ShowPenaltyOrBonusUI(minusTen));
         }
     }
-    
+    // checks if the player pressed the correct input, making sure that the player only has one attempt
+    // and if the timer runs out that attempt is gone
     private void CheckPlayerInput(Image arrow, string arrowString)
     {
         if (arrow.gameObject.name != arrowString) failed = true;
@@ -98,20 +103,22 @@ public class Arrow : MonoBehaviour
             }
         }
     }
-
+    
     private IEnumerator ShowPenaltyOrBonusUI(Image image)
     {
         ChangeImageAlpha(image, 255f);
         yield return new WaitForSeconds(1.5f);
         ChangeImageAlpha(image, 0f);
     }
-    
+    // little helper to change an images alpha so I don't have to keep repeating myself
     private void ChangeImageAlpha(Image image, float value)
     {
         var temp = image.color;
         temp.a = value;
         image.color = temp;
     }
+    
+    // manages players input for each individual arrow
     
     public void OnArrowUp(InputAction.CallbackContext context)
     { 
