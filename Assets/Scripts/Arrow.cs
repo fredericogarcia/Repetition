@@ -23,8 +23,8 @@ public class Arrow : MonoBehaviour
     [Header("Intensifier")] 
     [SerializeField] private Image intensifier;
     [Header("Time UI")] 
-    [SerializeField] private Image plusTen;
-    [SerializeField] private Image minusTen;
+    [SerializeField] private GameObject plusTen;
+    [SerializeField] private GameObject minusTen;
 
     
     private void Awake()
@@ -38,8 +38,6 @@ public class Arrow : MonoBehaviour
         ChangeImageAlpha(arrowLeft, 0f);
         ChangeImageAlpha(arrowRight, 0f);
         ChangeImageAlpha(intensifier, 0f);
-        ChangeImageAlpha(plusTen, 0f);
-        ChangeImageAlpha(minusTen, 0f);
         intensifier.enabled = false;
     }
     
@@ -104,11 +102,11 @@ public class Arrow : MonoBehaviour
         }
     }
     
-    private IEnumerator ShowPenaltyOrBonusUI(Image image)
+    private IEnumerator ShowPenaltyOrBonusUI(GameObject image)
     {
-        ChangeImageAlpha(image, 255f);
+        image.SetActive(enabled);
         yield return new WaitForSeconds(1.5f);
-        ChangeImageAlpha(image, 0f);
+        image.SetActive(false);
     }
     // little helper to change an images alpha so I don't have to keep repeating myself
     private void ChangeImageAlpha(Image image, float value)
