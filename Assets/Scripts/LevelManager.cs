@@ -16,21 +16,25 @@ public class LevelManager : MonoBehaviour
 
     public void LoadMainMenu()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
     }
     
     public void LoadGameOver()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("GameOver");
     }
     
     public void NextLevel()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
     
     public void RetryLevel()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     
