@@ -13,11 +13,12 @@ public class HighScore : MonoBehaviour
     [SerializeField] private TMP_Text victoryTimeText;
     [SerializeField] private TMP_Text elapsedTimeText;
     [SerializeField] private GameObject newText;
-
-
-
+    [SerializeField] private bool resetHighscores;
+    
+    
     private void Awake()
     {
+        
         newText.SetActive(false);
         timer = FindObjectOfType<Timer>();
         player = FindObjectOfType<PlayerController>();
@@ -27,6 +28,7 @@ public class HighScore : MonoBehaviour
 
     private void Update()
     {
+        if (resetHighscores) ResetHighscore();
         SetHighScoreText(highScore);
         SetElapsedTimeText();
         // checks if game is not paused and that the player is not in a victory screen
@@ -61,5 +63,6 @@ public class HighScore : MonoBehaviour
         victoryTimeText.text = ConvertTimeIntoString(elapsedTime);
     }
 
-    
+    private void ResetHighscore() => PlayerPrefs.DeleteAll();
+
 }

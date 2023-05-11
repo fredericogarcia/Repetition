@@ -19,7 +19,10 @@ public class Traps : MonoBehaviour
     private void Awake() => player = FindObjectOfType<PlayerController>();
 
     // when player goes over trap start IEnumerator passing down the value of the collider
-    private void OnTriggerEnter2D(Collider2D other) => StartCoroutine(SlowThenSpeedUpPlayerOvertime());
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player")) StartCoroutine(SlowThenSpeedUpPlayerOvertime());
+    }
 
     private IEnumerator SlowThenSpeedUpPlayerOvertime()
     {
