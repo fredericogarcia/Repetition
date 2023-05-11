@@ -71,6 +71,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""2cf877ef-bdf1-4273-85ec-a1aa74255098"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -170,6 +179,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard&Mouse"",
                     ""action"": ""ArrowRight"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""03cde9f7-4d75-4cb4-967a-487271be92a4"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -762,6 +782,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Player_ArrowDown = m_Player.FindAction("ArrowDown", throwIfNotFound: true);
         m_Player_ArrowLeft = m_Player.FindAction("ArrowLeft", throwIfNotFound: true);
         m_Player_ArrowRight = m_Player.FindAction("ArrowRight", throwIfNotFound: true);
+        m_Player_Pause = m_Player.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -840,6 +861,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_ArrowDown;
     private readonly InputAction m_Player_ArrowLeft;
     private readonly InputAction m_Player_ArrowRight;
+    private readonly InputAction m_Player_Pause;
     public struct PlayerActions
     {
         private @PlayerInput m_Wrapper;
@@ -849,6 +871,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @ArrowDown => m_Wrapper.m_Player_ArrowDown;
         public InputAction @ArrowLeft => m_Wrapper.m_Player_ArrowLeft;
         public InputAction @ArrowRight => m_Wrapper.m_Player_ArrowRight;
+        public InputAction @Pause => m_Wrapper.m_Player_Pause;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -873,6 +896,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ArrowRight.started += instance.OnArrowRight;
             @ArrowRight.performed += instance.OnArrowRight;
             @ArrowRight.canceled += instance.OnArrowRight;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -892,6 +918,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @ArrowRight.started -= instance.OnArrowRight;
             @ArrowRight.performed -= instance.OnArrowRight;
             @ArrowRight.canceled -= instance.OnArrowRight;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1079,6 +1108,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnArrowDown(InputAction.CallbackContext context);
         void OnArrowLeft(InputAction.CallbackContext context);
         void OnArrowRight(InputAction.CallbackContext context);
+        void OnPause(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
