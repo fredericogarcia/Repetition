@@ -10,11 +10,15 @@ public class HighScore : MonoBehaviour
     [SerializeField] private float highScore;
     [SerializeField] private int levelIndex;
     [SerializeField] private TMP_Text highScoreText;
+    [SerializeField] private TMP_Text victoryTimeText;
     [SerializeField] private TMP_Text elapsedTimeText;
+    [SerializeField] private GameObject newText;
+
 
 
     private void Awake()
     {
+        newText.SetActive(false);
         timer = FindObjectOfType<Timer>();
         player = FindObjectOfType<PlayerController>();
         levelIndex = SceneManager.GetActiveScene().buildIndex;
@@ -23,8 +27,8 @@ public class HighScore : MonoBehaviour
 
     private void Update()
     {
-        SetElapsedTimeText();
         SetHighScoreText(highScore);
+        SetElapsedTimeText();
         // checks if game is not paused and that the player is not in a victory screen
         if (!timer.paused && !player.victory) elapsedTime += Time.deltaTime; // starts timer
         else if (elapsedTime < highScore || highScore == 0)
@@ -34,6 +38,7 @@ public class HighScore : MonoBehaviour
             if (player.victory) {
                 PlayerPrefs.SetFloat("highscore" + levelIndex, elapsedTime);
                 SetHighScoreText(PlayerPrefs.GetFloat("highscore" + levelIndex, elapsedTime));
+                newText.SetActive(true);
             } 
         }
     }
@@ -49,6 +54,12 @@ public class HighScore : MonoBehaviour
 
     // display highscore
     private void SetHighScoreText(float score) => highScoreText.text = ConvertTimeIntoString(score);
-    private void SetElapsedTimeText() =>  elapsedTimeText.text = ConvertTimeIntoString(elapsedTime);
+    // display elapsed time in hud or victory screen
+    private void SetElapsedTimeText()
+    {
+        elapsedTimeText.text = ConvertTimeIntoString(elapsedTime);
+        victoryTimeText.text = ConvertTimeIntoString(elapsedTime);
+    }
+
     
 }

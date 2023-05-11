@@ -110,10 +110,10 @@ public class PlayerController : MonoBehaviour
     // respawns player if no time left
     public IEnumerator Respawn()
     {
+        timer.paused = true;
         eSystem.SetSelectedGameObject(null);
         eSystem.SetSelectedGameObject(gameOverScreenButton);
         animator.SetTrigger(Death);
-        timer.paused = true;
         StopPlayerInput();
         yield return new WaitForSeconds(2f);
         gameOverScreen.SetActive(true);
@@ -122,10 +122,10 @@ public class PlayerController : MonoBehaviour
     // plays wining dance and shows victory screen
     private IEnumerator Win()
     {
+        timer.paused = true;
         eSystem.SetSelectedGameObject(null);
         eSystem.SetSelectedGameObject(victoryScreenButton);
         animator.SetTrigger(Victory);
-        timer.paused = true;
         StopPlayerInput();
         yield return new WaitForSeconds(2f);
         victoryScreen.SetActive(true);
